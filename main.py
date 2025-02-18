@@ -216,6 +216,19 @@ def main():
     load_or_train_model(mnist_model, train_loader, epochs=10)
     digit_loader_eval(mnist_model, test_loader)
     
+  
+    for mask_id in mnist_model.mask_registry.get_managed_mask_ids():
+        mask_instance = mnist_model.mask_registry.get_instance(mask_id)
+        print(mask_instance.get_mask())
+        mask_instance.overwrite_with_binary()
+        print(mask_instance.get_mask())
+        
+    digit_loader_eval(mnist_model, test_loader)
+    
+
+##############
+    exit()
+
     mnist_datasets_by_label = split_dataset_by_label(bulk_dataset)
     non_interfering_activations_histogram = activation_disco(mnist_model, mnist_datasets_by_label, 1, 0.25)
     
